@@ -1,5 +1,5 @@
 # eso-demo
-Demo for the External Secrets Operator
+Demo for the [External Secrets Operator](https://external-secrets.io)
 
 
 ## Introduction
