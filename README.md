@@ -44,3 +44,18 @@ kubectl port-forward svc/vault -n vault 8200:8200
 ```
 
 And then access the [terrafom/vault/secret](./terraform/vault/secret/) folder and `terraform apply` again.
+
+The [tf.sh](./terraform/vault/tf.sh) script will do everything for you. Just execute 
+
+```bash
+./tf.sh
+```
+
+to create everything and 
+
+```bash
+./tf.sh destroy
+```
+
+to destroy it
+
