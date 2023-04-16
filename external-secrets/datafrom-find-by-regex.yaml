@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: data-by-name
+  name: datafrom-find-by-regex
   namespace: default
 spec:
   refreshInterval: 15s
@@ -10,12 +10,10 @@ spec:
     name: vault-secret-store
 
   target:
-    name: data-by-name
+    name: datafrom-find-by-regex
     creationPolicy: Owner
 
-  data:
-    - secretKey: vault
-      remoteRef:
-        key: secret-one
-        property: "the-key"
-
+  dataFrom:
+  - find:
+      name:
+        regexp: "^secret-"
