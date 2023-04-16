@@ -1,0 +1,21 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: data-by-name
+  namespace: default
+spec:
+  refreshInterval: 15s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-secret-store
+
+  target:
+    name: data-by-name
+    creationPolicy: Owner
+
+  data:
+    - secretKey: vault
+      remoteRef:
+        key: my-secret
+        property: "the-key"
+

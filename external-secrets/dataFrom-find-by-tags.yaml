@@ -1,0 +1,19 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: datafrom-find-by-tags
+  namespace: default
+spec:
+  refreshInterval: 15s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-secret-store
+
+  target:
+    name: datafrom-find-by-tags
+    creationPolicy: Owner
+
+  dataFrom:
+  - find:
+      tags:
+        dev: seb
