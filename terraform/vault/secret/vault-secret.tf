@@ -5,7 +5,7 @@ resource "vault_kv_secret_v2" "secret-one" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      the-key = "Hello from Hashicorp Vault!"
+      the-key = "Hello from Vault"
     }
   )
   custom_metadata {
