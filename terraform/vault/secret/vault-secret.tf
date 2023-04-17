@@ -25,7 +25,7 @@ resource "vault_kv_secret_v2" "secret-two" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      different-key = "A new secret"
+      different-key = "A new Vault secret"
     }
   )
   custom_metadata {
@@ -45,7 +45,7 @@ resource "vault_kv_secret_v2" "three" {
   delete_all_versions = true
   data_json = jsonencode(
     {
-      key = "Third secret value"
+      key = "Third Vault secret"
     }
   )
   custom_metadata {
