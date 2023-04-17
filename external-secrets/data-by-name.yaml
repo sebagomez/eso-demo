@@ -14,7 +14,7 @@ spec:
     creationPolicy: Owner
 
   data:
-    - secretKey: vault
+    - secretKey: secret-value
       remoteRef:
         key: secret-one
         property: "the-key"

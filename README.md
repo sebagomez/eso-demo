@@ -59,3 +59,26 @@ to create everything and
 
 to destroy it
 
+Now you can apply the ClustersecretStore for Vault
+
+```bash
+kubectl apply -f secret-stores/hashicorp-vault/vault-secretstore.yaml
+```
+
+### AWS Secrets Manager
+
+To create a few secrets and the user to access them in AWS Secrets Manager you can `terraform apply` from [terraform/aws](./terraform/aws/).
+
+After that run the following to extract the access key and secret and create a Kubernetes Secret with it.
+
+```bash
+export AWS_KEY=$(cat ./terraform.tfstate | jq '.resources[1].instances[0].attributes.id' --raw-output)
+export AWS_SECRET=$(cat ./terraform.tfstate | jq '.resources[1].instances[0].attributes.secret' --raw-output)
+kubectl create secret generic aws-credentials --namespace cred --from-literal=access-key=$AWS_KEY --from-literal=secret=$AWS_SECRET
+```
+
+Now you can apply the ClustersecretStore for AWS Secrets Manager
+
+```bash
+kubectl apply -f secret-stores/aws-secrets-manager/aws_secretstore.yaml
+```
