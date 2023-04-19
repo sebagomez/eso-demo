@@ -9,15 +9,10 @@ resource "aws_secretsmanager_secret" "secret-one" {
 }
 
 resource "aws_secretsmanager_secret_version" "secret-one-value" {
-  secret_id     = aws_secretsmanager_secret.secret-one.id
-  secret_string = jsonencode(var.secret-one-value)
-}
-
-variable "secret-one-value" {
-  default = {
+  secret_id = aws_secretsmanager_secret.secret-one.id
+  secret_string = jsonencode({
     the-key = "Hello from AWS Secret Manager"
-  }
-  type = map(string)
+  })
 }
 
 resource "aws_secretsmanager_secret" "secret-two" {
@@ -31,15 +26,10 @@ resource "aws_secretsmanager_secret" "secret-two" {
 }
 
 resource "aws_secretsmanager_secret_version" "secret-two-value" {
-  secret_id     = aws_secretsmanager_secret.secret-two.id
-  secret_string = jsonencode(var.secret-two-value)
-}
-
-variable "secret-two-value" {
-  default = {
+  secret_id = aws_secretsmanager_secret.secret-two.id
+  secret_string = jsonencode({
     different-key = "A new AWS Secrets Manager secret"
-  }
-  type = map(string)
+  })
 }
 
 resource "aws_secretsmanager_secret" "three" {
@@ -53,13 +43,8 @@ resource "aws_secretsmanager_secret" "three" {
 }
 
 resource "aws_secretsmanager_secret_version" "three-value" {
-  secret_id     = aws_secretsmanager_secret.three.id
-  secret_string = jsonencode(var.three-value)
-}
-
-variable "three-value" {
-  default = {
+  secret_id = aws_secretsmanager_secret.three.id
+  secret_string = jsonencode({
     key = "Third AWS Secrets Manager secret"
-  }
-  type = map(string)
+  })
 }
