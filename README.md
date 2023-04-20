@@ -82,3 +82,23 @@ Now you can apply the ClustersecretStore for AWS Secrets Manager
 ```bash
 kubectl apply -f secret-stores/aws-secrets-manager/aws_secretstore.yaml
 ```
+
+### Azure Key Vault
+
+To create a few secrets and the user to access them in Azure Key Vault you can `terraform apply` from [terraform/azure](./terraform/azure/).
+
+After that run the following to extract the access key and secret and create a Kubernetes Secret with it.
+
+```bash
+cd terraform/azure || return 1
+terraform apply
+export APP_ID=$(cat ./terraform.tfstate | jq '.resources | .[] | select(.type=="azuread_application") | .instances[0].attributes.application_id' --raw-output)
+export APP_PASSWORD=$(cat ./terraform.tfstate | jq '.resources | .[] | select(.type=="azuread_application_password") | .instances[0].attributes.value' --raw-output)
+# Generate the Secret with credentials
+kubectl create secret generic azure-credentials --namespace cred --from-literal=clientid=$APP_ID --from-literal=clientsecret=$APP_PASSWORD
+
+export VAULT_URL=$(cat ./terraform.tfstate | jq '.resources | .[] | select(.type=="azurerm_key_vault") | .instances[0].attributes.vault_uri' --raw-output)
+export TENANT_ID=$(cat ./terraform.tfstate | jq '.resources | .[] | select(.type=="azurerm_client_config") | .instances[0].attributes.tenant_id' --raw-output)
+# Generate the ClusterSecretStore
+eval "echo \"$(cat ../../secret-stores/azure-key-vault/azure_secretstore.template.yaml)\"" | kubectl apply -f -
+```

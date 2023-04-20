@@ -7,7 +7,7 @@ spec:
   refreshInterval: 15s
   secretStoreRef:
     kind: ClusterSecretStore
-    name: vault-secret-store
+    name: azure-secret-store
 
   target:
     name: datafrom-find-by-tags

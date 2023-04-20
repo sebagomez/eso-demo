@@ -14,13 +14,16 @@ resource "azurerm_key_vault" "eso-key-vault" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = [
-      "Get", "List", "Create"
-    ]
+    key_permissions = ["Get"]
 
-    secret_permissions = [
-      "Set", "Get", "Delete", "Purge", "Recover"
-    ]
+    secret_permissions = ["Set", "Get", "Delete", "Purge", "Recover", "List"]
+  }
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = azuread_service_principal.eso-app.id
+
+    secret_permissions = ["Set", "Get", "Delete", "Purge", "Recover", "List"]
   }
 }
 
