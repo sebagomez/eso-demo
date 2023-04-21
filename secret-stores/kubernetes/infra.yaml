@@ -1,3 +1,4 @@
+# Apply this if you don't use Terraform
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -32,23 +33,3 @@ subjects:
 - kind: ServiceAccount
   name: my-remote-sa
   namespace: remote
----
-apiVersion: external-secrets.io/v1beta1
-kind: ClusterSecretStore
-metadata:
-  name: k8s-secret-store
-spec:
-  provider:
-    kubernetes:
-      remoteNamespace: remote
-      server:
-        url: "https://192.168.49.2:8443" # this is "minikube ip"
-        caProvider:
-          type: ConfigMap
-          name: kube-root-ca.crt
-          namespace: remote
-          key: ca.crt
-      auth:
-        serviceAccount:
-          name: "my-remote-sa"
-          namespace: remote

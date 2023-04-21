@@ -102,3 +102,16 @@ export TENANT_ID=$(cat ./terraform.tfstate | jq '.resources | .[] | select(.type
 # Generate the ClusterSecretStore
 eval "echo \"$(cat ../../secret-stores/azure-key-vault/azure_secretstore.template.yaml)\"" | kubectl apply -f -
 ```
+
+### Kubernetes
+
+We're also using Terraform to deploy the Roles, RoleBinding and ServiceAccount needed to use the Kubernetes provider. In this example I'm creating a namespace called `remote` and I want to sync in the default namespace some of the secrets created in the remote namespace. In this example the remotes namespace acts as another cluster.
+
+So again, follow this steps to apply the infra and create the ClusterSecretStore for Kubernetes.
+
+```bash
+cd terraform/k8s
+terraform apply
+export CLUSTER_IP=$(minikube ip)
+eval "echo \"$(cat ../../secret-stores/kubernetes/k8s-secretstore.template.yaml)\"" | kubectl apply -f -
+```
