@@ -1,5 +1,5 @@
 resource "kubernetes_namespace" "remote" {
   metadata {
-    name = "remote"
+    name = "remote-cluster"
   }
 }

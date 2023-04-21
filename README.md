@@ -59,35 +59,33 @@ to create everything and
 
 to destroy it
 
-Now you can apply the ClustersecretStore for Vault
+Now you can apply the SecretStore for Vault
 
 ```bash
 kubectl apply -f secret-stores/hashicorp-vault/vault-secretstore.yaml
 ```
 
-### AWS Secrets Manager
+### AWS
 
-To create a few secrets and the user to access them in AWS Secrets Manager you can `terraform apply` from [terraform/aws](./terraform/aws/).
-
-After that run the following to extract the access key and secret and create a Kubernetes Secret with it.
+To create a few secrets and the user to access them in AWS Secrets Manager and AWS Parameter Store you can `terraform apply` from [terraform/aws](./terraform/aws/).
 
 ```bash
+cd terraform/aws || return 1
+terraform apply
 export AWS_KEY=$(cat ./terraform.tfstate | jq '.resources[1].instances[0].attributes.id' --raw-output)
 export AWS_SECRET=$(cat ./terraform.tfstate | jq '.resources[1].instances[0].attributes.secret' --raw-output)
+# Create the Secret with AWS credentials
 kubectl create secret generic aws-credentials --namespace cred --from-literal=access-key=$AWS_KEY --from-literal=secret=$AWS_SECRET
-```
-
-Now you can apply the ClustersecretStore for AWS Secrets Manager
-
-```bash
-kubectl apply -f secret-stores/aws-secrets-manager/aws_secretstore.yaml
+export AWS_REGION=$(aws configure get region)
+# Create the ClusterSecretStore for AWS Secret Manager
+eval "echo \"$(cat ../../secret-stores/aws/awssm_secretstore.template.yaml)\"" | kubectl apply -f -
+# And/Or create the ClusterSecretStore for AWS Parameter Store
+eval "echo \"$(cat ../../secret-stores/aws/awsps_secretstore.template.yaml)\"" | kubectl apply -f -
 ```
 
 ### Azure Key Vault
 
 To create a few secrets and the user to access them in Azure Key Vault you can `terraform apply` from [terraform/azure](./terraform/azure/).
-
-After that run the following to extract the access key and secret and create a Kubernetes Secret with it.
 
 ```bash
 cd terraform/azure || return 1
@@ -105,12 +103,12 @@ eval "echo \"$(cat ../../secret-stores/azure-key-vault/azure_secretstore.templat
 
 ### Kubernetes
 
-We're also using Terraform to deploy the Roles, RoleBinding and ServiceAccount needed to use the Kubernetes provider. In this example I'm creating a namespace called `remote` and I want to sync in the default namespace some of the secrets created in the remote namespace. In this example the remotes namespace acts as another cluster.
+We're also using Terraform to deploy the Roles, RoleBinding and ServiceAccount needed to use the Kubernetes provider. In this example I'm creating a namespace called `remote-cluster` and I want to sync in the default namespace some of the secrets created in the remote namespace. In this example the remotes namespace acts as another cluster.
 
 So again, follow this steps to apply the infra and create the ClusterSecretStore for Kubernetes.
 
 ```bash
-cd terraform/k8s
+cd terraform/k8s || return 1
 terraform apply
 export CLUSTER_IP=$(minikube ip)
 eval "echo \"$(cat ../../secret-stores/kubernetes/k8s-secretstore.template.yaml)\"" | kubectl apply -f -

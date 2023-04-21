@@ -1,7 +1,7 @@
 resource "kubernetes_role_binding" "remote-rb" {
   metadata {
     name      = "my-remote-rb"
-    namespace = "remote"
+    namespace = "remote-cluster"
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"

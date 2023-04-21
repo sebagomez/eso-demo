@@ -12,6 +12,11 @@ data "aws_iam_policy_document" "eso-policy-doc" {
     actions   = ["secretsmanager:*"]
     resources = ["*"]
   }
+  statement {
+    effect    = "Allow"
+    actions   = ["ssm:*"]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_user_policy" "eso-policy" {

@@ -1,7 +1,7 @@
 resource "kubernetes_secret" "secret-one" {
   metadata {
     name      = "secret-one"
-    namespace = "remote"
+    namespace = "remote-cluster"
     labels = {
       dev      = "seb"
       provider = "Kubernetes"
@@ -17,7 +17,7 @@ resource "kubernetes_secret" "secret-one" {
 resource "kubernetes_secret" "secret-two" {
   metadata {
     name      = "secret-two"
-    namespace = "remote"
+    namespace = "remote-cluster"
     labels = {
       dev      = "sebastian"
       provider = "Kubernetes"
@@ -33,7 +33,7 @@ resource "kubernetes_secret" "secret-two" {
 resource "kubernetes_secret" "three" {
   metadata {
     name      = "three"
-    namespace = "remote"
+    namespace = "remote-cluster"
     labels = {
       dev      = "seb"
       provider = "Kubernetes"

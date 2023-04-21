@@ -1,7 +1,7 @@
 resource "kubernetes_role" "eso-secret-reader" {
   metadata {
     name      = "eso-secret-reader"
-    namespace = "remote"
+    namespace = "remote-cluster"
   }
   rule {
     api_groups = [""]

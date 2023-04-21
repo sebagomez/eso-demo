@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: datafrom-find-by-tags
-  namespace: default
+  namespace: eso-demo
 spec:
   refreshInterval: 15s
   secretStoreRef:

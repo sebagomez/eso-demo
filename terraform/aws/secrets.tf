@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "secret-one" {
   name        = "secret-one"
-  description = "Secret created by Terraform"
+  description = "Secret for ESO demo"
   tags = {
     dev      = "seb"
     provider = "AWS Secrets Manager"
@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret_version" "secret-one-value" {
 
 resource "aws_secretsmanager_secret" "secret-two" {
   name        = "secret-two"
-  description = "Secret created by Terraform"
+  description = "Secret for ESO demo"
   tags = {
     dev      = "sebastian"
     provider = "AWS Secrets Manager"
@@ -34,7 +34,7 @@ resource "aws_secretsmanager_secret_version" "secret-two-value" {
 
 resource "aws_secretsmanager_secret" "three" {
   name        = "three"
-  description = "Secret created by Terraform"
+  description = "Secret for ESO demo"
   tags = {
     dev      = "seb"
     provider = "AWS Secrets Manager"
@@ -47,4 +47,26 @@ resource "aws_secretsmanager_secret_version" "three-value" {
   secret_string = jsonencode({
     key = "Third AWS Secrets Manager secret"
   })
+}
+
+resource "null_resource" "terminate-secrets" {
+  provisioner "local-exec" {
+    when        = destroy
+    interpreter = ["/bin/bash", "-c"]
+    working_dir = path.module
+    command     = "aws secretsmanager delete-secret --secret-id secret-one --force-delete-without-recovery"
+  }
+  provisioner "local-exec" {
+    when        = destroy
+    interpreter = ["/bin/bash", "-c"]
+    working_dir = path.module
+    command     = "aws secretsmanager delete-secret --secret-id secret-two --force-delete-without-recovery"
+
+  }
+  provisioner "local-exec" {
+    when        = destroy
+    interpreter = ["/bin/bash", "-c"]
+    working_dir = path.module
+    command     = "aws secretsmanager delete-secret --secret-id three --force-delete-without-recovery"
+  }
 }
