@@ -3,10 +3,14 @@ resource "kubernetes_role" "eso-secret-reader" {
     name      = "eso-secret-reader"
     namespace = "remote"
   }
-
   rule {
     api_groups = [""]
     resources  = ["secrets"]
     verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = ["authorization.k8s.io"]
+    resources  = ["selfsubjectrulesreviews"]
+    verbs      = ["create"]
   }
 }
