@@ -7,7 +7,7 @@ spec:
   refreshInterval: 15s
   secretStoreRef:
     kind: ClusterSecretStore
-    name: k8s-secret-store
+    name: $provider-secret-store
 
   target:
     name: datafrom-find-by-tags
