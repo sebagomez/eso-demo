@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: data-by-name
+  namespace: eso-demo
+spec:
+  refreshInterval: 15s
+  secretStoreRefs: 
+    - name: vault-secret-store
+      kind: ClusterSecretStore
+  selector:
+    secret:
+      name: my-own-secret
+  data:
+    - match:
+        secretKey: key
+        remoteRef:
+          remoteKey: my-pushed-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-own-secret
+  namespace: eso-demo
+data:
+  key: eyJzZWNyZXQta2V5IjoiSGVsbG8gS3ViZUh1ZGRsZSBUb3JvbnRvIDIwMjMhIn0K

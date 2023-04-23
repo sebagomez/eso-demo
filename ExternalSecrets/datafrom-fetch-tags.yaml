@@ -1,0 +1,19 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: datafrom-fetch-tags
+  namespace: eso-demo
+spec:
+  refreshInterval: 15s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: $provider-secret-store
+
+  target:
+    name: datafrom-fetch-tags
+    creationPolicy: Owner
+
+  dataFrom:
+  - extract:
+      metadataPolicy: Fetch
+      key: secret-two

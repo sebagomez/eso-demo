@@ -7,7 +7,7 @@ if [[ "$provider" != "awssm" && "$provider" != "awsps" && "$provider" != "azure"
     exit 1
 fi
 
-for file in ./external-secrets/*; do 
+for file in ./ExternalSecrets/*; do 
     if [ -f "$file" ]; then 
         eval "echo \"$(cat $file)\"" | kubectl apply -f -
     fi 
