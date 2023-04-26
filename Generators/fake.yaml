@@ -2,6 +2,7 @@ apiVersion: generators.external-secrets.io/v1alpha1
 kind: Fake
 metadata:
   name: fake-key
+  namespace: eso-demo
 spec:
   data:
     foo: bar
@@ -10,9 +11,10 @@ spec:
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: "fake"
+  name: fake
+  namespace: eso-demo
 spec:
-  refreshInterval: "30m"
+  refreshInterval: 15s
   target:
     name: fake
   dataFrom:
@@ -20,4 +22,4 @@ spec:
       generatorRef:
         apiVersion: generators.external-secrets.io/v1alpha1
         kind: Fake
-        name: "fake-key"
+        name: fake-key

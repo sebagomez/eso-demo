@@ -204,6 +204,30 @@ We now have a new `Secret` called _my-own-secret_, that one was created by us, a
 
 So if you now go in your browser (or your Vault cli tool) to your Vault, you'll find a new secret called _my-pushed-scret_ with the value from the _my-own-secret_ `Secret`
 
+## Demo 4
+
+We can also use an `ExternalSecret` to create a `Secret` from a generated secret from different Generators. Generators can be Azure Container Registry (ACRAccessToken), AWS Elastic Container Registry (ECRAuthorizationToken), Google Container Registry (GCRAccessToken), Vault Dynamic Secret (VaultDynamicSecret), Password and Fake. 
+
+For this demo we'll generate a `Password` and a `Fake`
+
+```bash
+❯ k apply -f Generators/ 
+fake.generators.external-secrets.io/fake-key created
+externalsecret.external-secrets.io/fake created
+password.generators.external-secrets.io/my-password created
+externalsecret.external-secrets.io/my-password created
+```
+
+We now have two `Secret` _fake_ and _my-password_. 
+```bash
+❯ k get secret
+NAME          TYPE     DATA   AGE
+fake          Opaque   2      22s
+my-password   Opaque   1      22s
+```
+
+_fake_ has the same keys defined in the `Fake`, while _my-password_ has a single key called password with a random generated password based on the spec.
+
 ## Clean up
 
 - Delete all the `ExternalSecrets` 
@@ -215,12 +239,14 @@ externalsecret.external-secrets.io "datafrom-fetch-tags" deleted
 externalsecret.external-secrets.io "datafrom-find-by-regex" deleted
 externalsecret.external-secrets.io "datafrom-find-by-tags" deleted
 ```
+
 - Delete the `PushSecret`
 ```bash
-❯ k delete -f PushSecrets    
+❯ k delete -f PushSecrets/
 pushsecret.external-secrets.io "data-by-name" deleted
 secret "my-own-secret" deleted
 ```
+
 - Delete the `ClusterSecretStore`
 ```bash
 ❯ k delete clustersecretstore --all
@@ -230,6 +256,16 @@ clustersecretstore.external-secrets.io "azure-secret-store" deleted
 clustersecretstore.external-secrets.io "k8s-secret-store" deleted
 clustersecretstore.external-secrets.io "vault-secret-store" deleted
 ```
+
+- Delete the generators
+```bash
+❯ k delete -f Generators/
+fake.generators.external-secrets.io "fake-key" deleted
+externalsecret.external-secrets.io "fake" deleted
+password.generators.external-secrets.io "my-password" deleted
+externalsecret.external-secrets.io "my-password" deleted
+```
+
 - Terraform destroy every provider you spung up
 
 - Delete the _eso-demo_, _cred_ and _remote-cluster_ namespaces.
