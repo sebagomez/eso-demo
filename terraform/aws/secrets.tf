@@ -49,6 +49,24 @@ resource "aws_secretsmanager_secret_version" "three-value" {
   })
 }
 
+resource "aws_secretsmanager_secret" "access-key" {
+  name        = "access-key"
+  description = "Secret for ESO demo"
+  tags = {
+    dev      = "sebastian"
+    provider = "AWS Secrets Manager"
+    example  = "External Secrets Operator"
+  }
+}
+
+resource "aws_secretsmanager_secret_version" "access-key-value" {
+  secret_id = aws_secretsmanager_secret.access-key.id
+  secret_string = jsonencode({
+    id     = "AKIAIOSFODNN7EXAMPLE"
+    secret = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  })
+}
+
 resource "null_resource" "terminate-secrets" {
   provisioner "local-exec" {
     when        = destroy
@@ -68,5 +86,11 @@ resource "null_resource" "terminate-secrets" {
     interpreter = ["/bin/bash", "-c"]
     working_dir = path.module
     command     = "aws secretsmanager delete-secret --secret-id three --force-delete-without-recovery"
+  }
+  provisioner "local-exec" {
+    when        = destroy
+    interpreter = ["/bin/bash", "-c"]
+    working_dir = path.module
+    command     = "aws secretsmanager delete-secret --secret-id access-key --force-delete-without-recovery"
   }
 }

@@ -1,0 +1,30 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: data-by-name-with-template
+  namespace: eso-demo
+spec:
+  refreshInterval: 15s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: $provider-secret-store
+
+  target:
+    name: data-by-name-with-template
+    template:
+      engineVersion: v2
+      data:
+        credentials: |
+          [default]
+          aws_access_key_id = {{ .accessid }}
+          aws_secret_access_key = {{ .accesssecret }}
+
+  data:
+  - secretKey: accessid
+    remoteRef:
+      key: access-key
+      property: id
+  - secretKey: accesssecret
+    remoteRef:
+      key: access-key
+      property: secret

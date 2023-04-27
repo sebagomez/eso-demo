@@ -36,3 +36,17 @@ resource "azurerm_key_vault_secret" "three" {
     example  = "ESO"
   }
 }
+
+resource "azurerm_key_vault_secret" "access-key" {
+  name = "access-key"
+  value = jsonencode({
+    id     = "AKIAIOSFODNN7EXAMPLE"
+    secret = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+  })
+  key_vault_id = azurerm_key_vault.eso-key-vault.id
+  tags = {
+    dev      = "sebastian"
+    provider = "Azure Key Vault"
+    example  = "External Secrets Operator"
+  }
+}

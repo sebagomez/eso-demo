@@ -45,3 +45,20 @@ resource "kubernetes_secret" "three" {
     key = "Third Kubernetes secret"
   }
 }
+
+resource "kubernetes_secret" "access-key" {
+  metadata {
+    name      = "access-key"
+    namespace = "remote-cluster"
+    labels = {
+      dev      = "sebastian"
+      provider = "Kubernetes"
+      example  = "ExternalSecretsOperator"
+    }
+  }
+
+  data = {
+    id     = "AKIAIOSFODNN7EXAMPLE"
+    secret = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYFROMK8S"
+  }
+}

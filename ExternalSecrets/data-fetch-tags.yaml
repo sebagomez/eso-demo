@@ -19,3 +19,4 @@ spec:
       metadataPolicy: Fetch
       key: secret-one
       property: "provider"
+      #property: "labels.provider" # for K8s provider

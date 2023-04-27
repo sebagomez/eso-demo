@@ -36,3 +36,16 @@ resource "aws_ssm_parameter" "three" {
     example  = "ESO"
   }
 }
+
+resource "aws_ssm_parameter" "access-key" {
+  name        = "access-key"
+  description = "Parameter for ESO demo"
+  type        = "SecureString"
+  value       = "{\"id\":\"AKIAIOSFODNN7EXAMPLE\", \"secret\":\"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"}"
+
+  tags = {
+    dev      = "sebastian"
+    provider = "AWS Parameter Store"
+    example  = "External Secrets Operator"
+  }
+}

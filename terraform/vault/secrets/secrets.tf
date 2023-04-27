@@ -57,3 +57,24 @@ resource "vault_kv_secret_v2" "three" {
     }
   }
 }
+
+resource "vault_kv_secret_v2" "access-key" {
+  mount               = "secret"
+  name                = "access-key"
+  cas                 = 1
+  delete_all_versions = true
+  data_json = jsonencode(
+    {
+      id     = "AKIAIOSFODNN7EXAMPLE"
+      secret = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYFROMVAULT"
+    }
+  )
+  custom_metadata {
+    max_versions = 5
+    data = {
+      dev      = "sebastian",
+      provider = "Hashicrop Vault"
+      example  = "External Secrets Operator"
+    }
+  }
+}
