@@ -1,5 +1,5 @@
 # eso-demo
-Demo for the [External Secrets Operator](https://external-secrets.io)
+Demo for the [External Secrets Operator](https://external-secrets.io) at github.com/sebagomez/eso-demo
 
 
 ## Introduction
@@ -278,3 +278,8 @@ namespace "cred" deleted
 
 Let me know if you have comments and/or feedback. 
 PRs are always welcome
+
+
+> This repo, and all its content and demos are "works on my machine" certified 👍
+
+![](./res/works.png)
