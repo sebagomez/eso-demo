@@ -7,6 +7,7 @@ if [[ "$provider" != "awssm" && "$provider" != "awsps" && "$provider" != "azure"
     exit 1
 fi
 
+echo "Applying templates for ${provider}"
 for file in ./ExternalSecrets/*; do 
     if [ -f "$file" ]; then 
         eval "echo \"$(cat $file)\"" | kubectl apply -f -
