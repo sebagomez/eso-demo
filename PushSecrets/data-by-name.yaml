@@ -6,8 +6,8 @@ metadata:
 spec:
   refreshInterval: 15s
   secretStoreRefs: 
-    - name: vault-secret-store
-      kind: ClusterSecretStore
+    - kind: ClusterSecretStore
+      name: vault-secret-store
   selector:
     secret:
       name: my-own-secret
